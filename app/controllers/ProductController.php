@@ -117,7 +117,6 @@ class ProductController extends Controller
         $this->setTitle("Додавання товару");
         if ($values = $model->getPostValues()) {
             $model->addItem($values);
-           
         } 
         
         $this->setView();

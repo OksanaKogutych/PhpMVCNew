@@ -3,29 +3,33 @@
 /**
  * Class Model
  */
-class Model
-{
+class Model {
 
     /**
      * @var
      */
     protected $table_name;
+
     /**
      * @var
      */
     protected $id_column;
+
     /**
      * @var array
      */
     protected $columns = [];
+
     /**
      * @var
      */
     protected $collection;
+
     /**
      * @var
      */
     protected $sql;
+
     /**
      * @var array
      */
@@ -34,58 +38,59 @@ class Model
     /**
      * @return $this
      */
-    public function initCollection()
-    {
-        $columns = implode(',',$this->getColumns());
-        $this->sql = "select $columns from " . $this->table_name ;
+    public function initCollection() {
+        $columns = implode(',', $this->getColumns());
+        $this->sql = "select $columns from " . $this->table_name;
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getColumns()
-    {
+    public function getColumns() {
         $db = new DB();
         $sql = "show columns from  $this->table_name;";
         $results = $db->query($sql);
-        foreach($results as $result) {
-            array_push($this->columns,$result['Field']);
+        foreach ($results as $result) {
+            array_push($this->columns, $result['Field']);
         }
         return $this->columns;
     }
-
 
     /**
      * @param $params
      * @return $this
      */
-    public function sort($params)
-    {
-       /*
-              TODO
-              return $this;
-        */
+    public function sort($params) {
+        if (!empty($params)) {
+            $this->sql .= " order by";
+            foreach ($params as $key => $value) {
+                $this->sql .= " $key $value,";
+            }
+        }
+        $this->sql = rtrim($this->sql, ',');
+        return $this;
+        /*
+          TODO
+          return $this;
+         */
         return $this;
     }
 
     /**
      * @param $params
      */
-    public function filter($params)
-    {
-       /*
-              TODO
-              return $this;
-        */
-        
+    public function filter($params) {
+        /*
+          TODO
+          return $this;
+         */
     }
 
     /**
      * @return $this
      */
-    public function getCollection()
-    {
+    public function getCollection() {
         $db = new DB();
         $this->sql .= ";";
         $this->collection = $db->query($this->sql, $this->params);
@@ -95,16 +100,14 @@ class Model
     /**
      * @return mixed
      */
-    public function select()
-    {
+    public function select() {
         return $this->collection;
     }
 
     /**
      * @return null
      */
-    public function selectFirst()
-    {
+    public function selectFirst() {
         return isset($this->collection[0]) ? $this->collection[0] : null;
     }
 
@@ -112,8 +115,7 @@ class Model
      * @param $id
      * @return mixed
      */
-    public function getItem($id)
-    {
+    public function getItem($id) {
         $sql = "select * from $this->table_name where $this->id_column = ?;";
         $db = new DB();
         $params = array($id);
@@ -123,22 +125,20 @@ class Model
     /**
      * @return array
      */
-    public function getPostValues()
-    {
+    public function getPostValues() {
         $values = [];
         $columns = $this->getColumns();
         foreach ($columns as $column) {
             /*
-            if ( isset($_POST[$column]) && $column !== $this->id_column ) {
-                $values[$column] = $_POST[$column];
-            }
+              if ( isset($_POST[$column]) && $column !== $this->id_column ) {
+              $values[$column] = $_POST[$column];
+              }
              * 
              */
             $column_value = filter_input(INPUT_POST, $column);
-            if ($column_value && $column !== $this->id_column ) {
+            if ($column_value && $column !== $this->id_column) {
                 $values[$column] = $column_value;
             }
-
         }
         return $values;
     }
