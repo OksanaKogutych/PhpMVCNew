@@ -52,7 +52,7 @@ class ProductController extends Controller
             $values = $model->getPostValues();
             $this->registry['saved'] = 1;
             $model->editItem($id,$values);
-             $this->setView('succesupdate');
+             $this->setView('update');
               $this->renderLayout();
         }
  else {
@@ -71,7 +71,7 @@ class ProductController extends Controller
             if ($id) {
                 $values = $model->getPostValues();
                 $model->deleteItem($id);
-                $this->setView('successdelete');
+                $this->setView('delete');
                 $this->RenderLayout();
             } else {
                 $this->setView();
