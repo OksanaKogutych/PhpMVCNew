@@ -121,11 +121,7 @@ class ProductController extends Controller
         
         $this->setView();
         $this->renderLayout();
-    if (isset($_POST['submit'])){        
-        $this->setView('succesadd');
-        exit();
-        
-        } 
+    
         
         }
 
