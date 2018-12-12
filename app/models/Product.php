@@ -21,21 +21,11 @@ class Product extends Model
         }
         return $validation;
     }
-     public function deleteItem($id) {
+       
         
-        $db = new DB();
-        $sql = "DELETE FROM products WHERE id = $id";
-        $add = $db->query($sql);
-        if ($add) {
-            return 'succes';
-        } else {
-            return 'error';
-        }
-         
-        
-    }
+    
  public function editItem($id,$values) {
-         $values = $this->validationData($values);
+        $values = $this->validationData($values);
         $db = new DB();
         $sql = "UPDATE products SET sku = :sku, name = :name, price = :price, qty = :qty WHERE id = $id";
         $add = $db->insert($sql, $values);
@@ -51,10 +41,6 @@ class Product extends Model
         $db = new DB();
         $sql = "INSERT INTO products (sku, name, price, qty) VALUES (:sku, :name, :price, :qty)";
         $add = $db->insert($sql, $values);
-        if ($add) {
-            return 'succes';
-        } else {
-            return 'error';
-        }
+        
     }
 }

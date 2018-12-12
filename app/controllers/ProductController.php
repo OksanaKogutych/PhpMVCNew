@@ -34,7 +34,7 @@ class ProductController extends Controller
     {
         $this->setTitle("Карточка товара");
         $this->registry['product'] = $this->getModel('Product')->initCollection()
-              ->filter(['id',$this->getId()])->getCollection()->selectFirst();
+              ->filter(['id'=>$this->getId()])->getCollection()->selectFirst();
         $this->setView();
         $this->renderLayout();
     }
@@ -42,24 +42,36 @@ class ProductController extends Controller
     /**
      *
      */
-    public function EditAction()
-    {
-        $model = $this->getModel('Product');
-        $this->registry['saved'] = 0;
-        $this->setTitle("Редагування товару");
-        $id = filter_input(INPUT_POST, 'id');
-        if ($id) {
-            $values = $model->getPostValues();
-            $this->registry['saved'] = 1;
-            $model->editItem($id,$values);
-             $this->setView('update');
-              $this->renderLayout();
-        }
- else {
-     $this->registry['product'] = $model->getItem($this->getId());
-        $this->setView();
-        $this->renderLayout();
- }
+
+     public function EditAction() {
+
+            $model = $this->getModel('Product');
+            $this->registry['saved'] = 0;
+            $this->setTitle("Редагування товару");
+            $id = filter_input(INPUT_POST, 'id');
+            if ($id) {
+
+                $values = $model->getPostValues();
+
+                if ($this->validation($values)) {
+
+                    $this->registry['saved'] = 1;
+                    $model->editItem($id, $values);
+                    $this->setView('update');
+                    $this->renderLayout();
+                } else {
+                    $this->registry['product'] = $model->getItem($this->getId());
+                    $this->setView();
+                    $this->renderLayout();
+                }
+            } else {
+                if (($this->registry['product'] = $model->getItem($this->getId())) == null) {
+                    $this->setView('error');
+                    $this->renderLayout();
+                }
+                $this->setView();
+                $this->renderLayout();
+            }
         
     }
     
@@ -71,8 +83,7 @@ class ProductController extends Controller
             if ($id) {
                 $values = $model->getPostValues();
                 $model->deleteItem($id);
-                $this->setView('delete');
-                $this->RenderLayout();
+                Helper::redirect("/product/list"); 
             } else {
                 $this->setView();
                 $this->RenderLayout();
@@ -87,43 +98,28 @@ class ProductController extends Controller
     /**
      *
      */
-//
-//    public function AddAction() {
-//
-//        $model = $this->getModel('Product');
-//        $this->setTitle("Додавання товару");
-//        if ($values = $model->getPostValues()) {
-//            $model->addItem($values);
-//            if ($this->validation($values)) {
-//                $model->addItem($values);
-//                $this->setView('succesadd');
-//                $this->renderLayout();
-//            } else {
-//                $this->registry['product'] = $values;
-//                $this->setView();
-//                $this->renderLayout();
-//            }
-//        } else {
-//            $this->setView();
-//            $this->renderLayout();
-//        }
-//
-//
-//       
-//    }
-         public function AddAction() {
 
-        $model = $this->getModel('Product');
-        $this->setTitle("Додавання товару");
-        if ($values = $model->getPostValues()) {
-            $model->addItem($values);
-        } 
+        public function AddAction() {
         
-        $this->setView();
-        $this->renderLayout();
-    
+            $model = $this->getModel('Product');
+            $this->setTitle("Додавання товару");
+            if ($model->getPostValues()) {
+                $values = $model->getPostValues();
+                if ($this->validation($values)) {
+                    $model->addItem($values);
+                    $this->setView('adddone');
+                    $this->renderLayout();
+                } else {
+                    $this->registry['product'] = $values;
+                    $this->setView();
+                    $this->renderLayout();
+                }
+            } else {
+                $this->setView();
+                $this->renderLayout();
+            }
         
-        }
+    }
 
     /**
      * @return array
@@ -188,38 +184,38 @@ class ProductController extends Controller
      */
     public function getId()
     {
-        /*
+        
         if (isset($_GET['id'])) {
          
             return $_GET['id'];
         } else {
             return NULL;
         }
-        */
+        
         return filter_input(INPUT_GET, 'id');
     }
     
-        public function validationData($data) {
+        public function validation($data) {
 
         foreach ($data as $key => $value) {
             switch ($key) {
-                case 'sku': $sku = preg_match("~^[0-9a-zа-яґєіїё\,\\\'\s-]{1,30}$~ui", $value);
-                    (!$sku) ? $this->errors['error_sku'] = $value : true;
+                case 'sku': $sku = preg_match("/^[0-9a-zа-яґєіїё]{1,15}$/ui", $value);
+                    (!$sku) ? $this->errors['sku_error'] = $value : true;
                     break;
 
-                case 'name': $name = preg_match("~^[0-9a-zа-яґєіїё\,\\\'\s-]{1,30}$~ui", $value);
-                    (!$name) ? $this->errors['error_name'] = $value : true;
+                case 'name': $name = preg_match("/^[0-9a-zа-яґєіїё\s]{1,30}$/ui", $value);
+                    (!$name) ? $this->errors['name_error'] = $value : true;
                     break;
 
                 case 'price': $price = preg_match("/^([1-9][0-9]*|0)(\.[0-9]{2})?$/", $value);
-                    (!$price) ? $this->errors['error_price'] = $value : true;
+                    (!$price) ? $this->errors['price_error'] = $value : true;
                     break;
 
                 case 'qty': $qty = preg_match("/^([1-9][0-9]*|0)(\.[0-9]{3})?$/", $value);
-                    (!$qty) ? $this->errors['error_qty'] = $value : true;
+                    (!$qty) ? $this->errors['qty_error'] = $value : true;
                     break;
-                case 'description': $descrip = preg_match("~^[0-9a-zа-яґєіїё\,\\\'\s-]{1,}$~ui", $value);
-                    (!$descrip) ? $this->errors['error_descrip'] = $value : true;
+                case 'description': $descrip = preg_match("/^[0-9a-zа-яґєіїё\s\,']{1,}$/ui", $value);
+                    (!$descrip) ? $this->errors['description_error'] = $value : true;
                     break;
             }
         }

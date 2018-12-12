@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/controllers/ProductController.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/core/Helper.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/views/product/update.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/views/product/delete.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/views/index/test.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/views/product/add.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/core/Model.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/models/Menu.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/layouts/menu.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/views/product/list.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/models/Product.php</file>
+            <file>file:/E:/OSPanel/domains/localhost/PhpMVCNew/app/layouts/layout.php</file>
+        </group>
+    </open-files>
 </project-private>

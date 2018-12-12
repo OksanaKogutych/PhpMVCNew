@@ -70,12 +70,8 @@ class Model {
         }
         $this->sql = rtrim($this->sql, ',');
         return $this;
-        /*
-          TODO
-          return $this;
-         */
-        return $this;
-    }
+       
+        }
 
     /**
      * @param $params
@@ -96,7 +92,7 @@ class Model {
         $this->collection = $db->query($this->sql, $this->params);
         return $this;
     }
-
+    
     /**
      * @return mixed
      */
@@ -121,6 +117,52 @@ class Model {
         $params = array($id);
         return $db->query($sql, $params)[0];
     }
+    public function deleteItem($id) {
+        $sql = "Delete from $this->table_name where $this->id_column = ?;";
+        $db = new DB();
+        $params = array($id);
+        return $db->query($sql, $params);
+    }
+    
+    
+//    public function editItem($id,$values) {
+//    
+//        $db = new DB();
+//        $this->sql .= "UPDATE $this->table_name SET ";
+//        foreach ($values as $key => $value) {
+//            //array_push($this->columns, $result['Field']);
+//          $this->sql .= " $key = $value,";
+//            
+//        }
+//        $this->sql = rtrim($this->sql, ',');
+//        $this->sql .= " WHERE id = $id;";
+//       
+//        
+//        return $db->query($this, $values);
+//
+//    }
+//  
+
+ 
+//    public function addItem($values) {
+//        
+//        $db = new DB();
+//
+//        foreach ($values as $key => $value) {
+//            $k .= " $key,";
+//        }
+//        $k = rtrim($k, ',');
+//        $this->sql = "INSERT INTO $this->table_name ($k) VALUES";
+//
+//        foreach ($values as $key => $value) {
+//
+//            $val .= " '$value',";
+//        }
+//        $val = rtrim($val, ',');
+//        $this->sql .= " ($val)";
+//
+//        return $db->query($this, $values);
+//    }
 
     /**
      * @return array

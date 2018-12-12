@@ -10,7 +10,7 @@
     <body>
         <div class="jumbotron">
             <div class="container text-center">
-                <h1>Test Shop</h1>
+                <h1><span class="titel">Test Shop</span></h1>
             </div>
         </div>
 

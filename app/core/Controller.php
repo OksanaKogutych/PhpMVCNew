@@ -18,7 +18,10 @@ class Controller
      * @var array
      */
     protected $registry = array();
-    
+     /**
+     * @var array
+     */
+    protected $errors = array();
 
     /**
      * @param $title
