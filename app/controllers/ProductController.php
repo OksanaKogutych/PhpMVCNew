@@ -58,7 +58,9 @@ class ProductController extends Controller
                     $this->registry['saved'] = 1;
                     $model->editItem($id, $values);
                     $this->setView('update');
-                    $this->renderLayout();
+                   $this->renderLayout();
+                    
+                    
                 } else {
                     $this->registry['product'] = $model->getItem($this->getId());
                     $this->setView();
@@ -76,7 +78,7 @@ class ProductController extends Controller
     }
     
        public function DeleteAction() {
-        
+         if (Helper::isAdmin()) {
             $this->setTitle("Видалення товару");
             $model = $this->getModel('Product');
             $id = filter_input(INPUT_GET, 'id');
@@ -88,9 +90,29 @@ class ProductController extends Controller
                 $this->setView();
                 $this->RenderLayout();
             }
+              } else {
+           Helper::redirect('/index/index');
+        }
       
         }
-    
+//     public function DeleteAction() {
+//        if (Helper::isAdmin()) {
+//            $this->setTitle("Видалення товару");
+//            $model = $this->getModel('Product');
+//            $id = filter_input(INPUT_GET, 'id');
+//            if ($id) {
+//                $values = $model->getPostValues();
+//                $model->deleteItem($id);
+//                //$this->setView('successdelete');
+//                $this->RenderLayout();
+//            } else {
+//                $this->setView();
+//                $this->RenderLayout();
+//            }
+//        } else {
+//            Helper::redirect('/index/index');
+//        }
+//    }
 
     
 
@@ -103,23 +125,48 @@ class ProductController extends Controller
         
             $model = $this->getModel('Product');
             $this->setTitle("Додавання товару");
-            if ($model->getPostValues()) {
-                $values = $model->getPostValues();
+            $id = $this->getId();
+            $values = $model->getPostValues();
+            if ($values) {
                 if ($this->validation($values)) {
                     $model->addItem($values);
                     $this->setView('adddone');
                     $this->renderLayout();
+                    
+                     
                 } else {
                     $this->registry['product'] = $values;
                     $this->setView();
                     $this->renderLayout();
+                   
                 }
             } else {
                 $this->setView();
                 $this->renderLayout();
+                
             }
         
     }
+    
+    
+    
+//    public function AddAction() {
+//
+//        $model = $this->getModel('Product');
+//        $this->setTitle("Додавання товару");
+//        if ($values = $model->getPostValues()) {
+//            $model->addItem($values);
+//        }
+//         $this->setView();
+//        $this->renderLayout();
+//       
+//    if (isset($_POST['submit'])){        
+//        Helper::redirect("/product/list"); 
+//        exit();
+//        
+//        } 
+//        
+//        }
 
     /**
      * @return array

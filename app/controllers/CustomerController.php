@@ -47,6 +47,7 @@ class CustomerController extends Controller{
         $this->setView();
         $this->renderLayout();
     }
+
     
     public function LogoutAction()
     {
@@ -63,4 +64,84 @@ class CustomerController extends Controller{
         session_destroy();
         Helper::redirect('/index/index');
     }
+    
+    public function registerAction() {
+        if (isset($_SESSION['id'])) {
+            Helper::redirect('/index/index');
+        }
+
+        $this->setTitle('Зареєструватися');
+        $model = $this->getModel('Customer');
+        $values = $model->getPostValues();
+        if ($values) {
+            if ($this->validPostData($values)) {
+                switch ($model->registerUser($values)):
+                    case false: $this->setView('error_email');
+                        break;
+                    case true: $this->setView('success_register');
+                        break;
+                endswitch;
+                $this->RenderLayout();
+            } else {
+                $this->registry['userdata'] = $values;
+                $this->setView();
+                $this->RenderLayout();
+            }
+        } else {
+            $this->setView();
+            $this->RenderLayout();
+        }
+    }
+    
+    
+    
+//      public function registerAction() {
+//        $customer = $this->getModel('Customer');
+//        $this->setTitle("Зареєструватися");
+//       $values = $customer->getPostValues();
+//            if ($values) {
+//                    $customer->addItem($values);
+//                    $this->setView('adddone');
+//                    $this->renderLayout();
+//                                        
+//                } else {
+//                $this->setView();
+//                $this->renderLayout();}
+//      }
+        
+        
+//        if ($values = $customer->getPostValues()) {
+//            $this->addItem($values);
+//            //$customer->register($values);
+//        }
+//        $this->setView();
+//        $this->renderLayout();
+//        
+//         $model = $this->getModel('Product');
+//            $this->setTitle("Додавання товару");
+//            $id = $this->getId();
+//            $values = $model->getPostValues();
+//            if ($values) {
+//                if ($this->validation($values)) {
+//                    $model->addItem($values);
+//                    $this->setView('adddone');
+//                    $this->renderLayout();
+//                    
+//                     
+//                } else {
+//                    $this->registry['product'] = $values;
+//                    $this->setView();
+//                    $this->renderLayout();
+//                   
+//                }
+//            } else {
+//                $this->setView();
+//                $this->renderLayout();
+//                
+//            }
+        
+        
+        
+   // }
+
 }

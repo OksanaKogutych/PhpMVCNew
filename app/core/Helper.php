@@ -60,4 +60,20 @@ public static function redirect($path)
         }
 
     }
+    public static function isAdmin() {
+        $data = self::getCustomer();
+        if($data) {
+        foreach ($data as $key => $value) {
+            if ($key == 'admin_role') {
+                if ($value === 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } 
+
+        return $status;
+        }
+    }
 }

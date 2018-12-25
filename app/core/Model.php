@@ -77,10 +77,20 @@ class Model {
      * @param $params
      */
     public function filter($params) {
-        /*
-          TODO
-          return $this;
-         */
+//        foreach ($params as $key => $value) {
+//
+//            $this->sql .= ' WHERE ' . $key . ' = ' . $value . '';
+//        }
+//        return $this;
+         if (!empty($params)){
+            $this->sql.= " where";
+            foreach ($params as $key => $value)
+            {
+                $this->sql .= " $key = '$value' AND";
+            }
+            $this->sql = rtrim($this->sql, "AND");
+            return $this;
+            }
     }
 
     /**
@@ -125,44 +135,45 @@ class Model {
     }
     
     
-//    public function editItem($id,$values) {
-//    
-//        $db = new DB();
-//        $this->sql .= "UPDATE $this->table_name SET ";
-//        foreach ($values as $key => $value) {
-//            //array_push($this->columns, $result['Field']);
-//          $this->sql .= " $key = $value,";
-//            
-//        }
-//        $this->sql = rtrim($this->sql, ',');
-//        $this->sql .= " WHERE id = $id;";
-//       
-//        
-//        return $db->query($this, $values);
-//
-//    }
-//  
+    public function editItem($id,$values) {
+    
+        $db = new DB();
+        $this->sql .= "UPDATE $this->table_name SET ";
+        foreach ($values as $key => $value) {
+            //array_push($this->columns, $result['Field']);
+          $this->sql .= " `$key` = '$value',";
+            
+        }
+        $this->sql = rtrim($this->sql, ',');
+        $this->sql .= " WHERE `id` = '$id';";
+       
+        
+        return $db->insert($this->sql, $values);
+
+    }
+  
 
  
-//    public function addItem($values) {
-//        
-//        $db = new DB();
-//
-//        foreach ($values as $key => $value) {
-//            $k .= " $key,";
-//        }
-//        $k = rtrim($k, ',');
-//        $this->sql = "INSERT INTO $this->table_name ($k) VALUES";
-//
-//        foreach ($values as $key => $value) {
-//
-//            $val .= " '$value',";
-//        }
-//        $val = rtrim($val, ',');
-//        $this->sql .= " ($val)";
-//
-//        return $db->query($this, $values);
-//    }
+    public function addItem($values) {
+        $k="";
+        $val="";
+        $db = new DB();
+
+        foreach ($values as $key => $value) {
+            $k .= " $key,";
+        }
+        $k = rtrim($k, ',');
+        $this->sql = "INSERT INTO $this->table_name ($k) VALUES";
+
+        foreach ($values as $key => $value) {
+
+            $val .= " '$value',";
+        }
+        $val = rtrim($val, ',');
+        $this->sql .= " ($val)";
+
+        return $db->insert($this->sql, $values);
+    }
 
     /**
      * @return array
