@@ -95,25 +95,6 @@ class ProductController extends Controller
         }
       
         }
-//     public function DeleteAction() {
-//        if (Helper::isAdmin()) {
-//            $this->setTitle("Видалення товару");
-//            $model = $this->getModel('Product');
-//            $id = filter_input(INPUT_GET, 'id');
-//            if ($id) {
-//                $values = $model->getPostValues();
-//                $model->deleteItem($id);
-//                //$this->setView('successdelete');
-//                $this->RenderLayout();
-//            } else {
-//                $this->setView();
-//                $this->RenderLayout();
-//            }
-//        } else {
-//            Helper::redirect('/index/index');
-//        }
-//    }
-
     
 
 

@@ -172,7 +172,10 @@ class Model {
         $val = rtrim($val, ',');
         $this->sql .= " ($val)";
 
-        return $db->insert($this->sql, $values);
+
+    return $db->insert($this->sql, $values);
+   
+
     }
 
     /**

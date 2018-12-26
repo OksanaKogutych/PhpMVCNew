@@ -66,13 +66,14 @@ class DB
             return false;
         }
     }
-//    public function select($table, $where, $data_where, $columns = '*') {
-//        $dbh = $this->getConnection();
-//        $stmt = "SELECT $columns FROM `$table` WHERE $where";
-//        $statmen = $dbh->prepare($stmt);
-//        $statmen->execute(array($data_where));
-//        $data = $statmen->fetchAll();
-//        return $data;
-//    }
+    
+    public function select($table, $where, $data_where, $columns = '*') {
+        $dbh = $this->getConnection();
+        $stmt = "SELECT $columns FROM `$table` WHERE $where";
+        $statmen = $dbh->prepare($stmt);
+        $statmen->execute(array($data_where));
+        $data = $statmen->fetchAll();
+        return $data;
+    }
    
 }
